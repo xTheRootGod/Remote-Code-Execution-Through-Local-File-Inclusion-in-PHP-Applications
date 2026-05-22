@@ -139,6 +139,34 @@ Local File Inclusion → Authentication Log Access → Log Poisoning → PHP Cod
 ```
 The challenge also highlighted the importance of secure server-side input validation and safe handling of dynamically included files. Improperly sanitized file paths, combined with the ability to inject attacker-controlled content into log files, created a highly exploitable environment.
 
+<b>Impact & Post-Exploitation Potential</b>
+
+Once Remote Code Execution was achieved through log poisoning, the attacker effectively gained the ability to execute system-level commands as the web server user (www-data). This level of access could potentially allow further post-exploitation actions such as modifying web application files (e.g., index.php), leading to a full website defacement scenario, depending on file permissions.
+
+With RCE access, the attacker can pivot from file disclosure to full system-level impact, including web root modification and potential website defacement.
+
+```
+<?php system("echo 'Hacked' > /var/www/html/index.php"); ?>
+```
+
+<b>Web Shell Upload</b>
+
+Following successful RCE, the attacker can deploy a web shell within the web root directory. A web shell is a malicious PHP script that allows remote command execution through HTTP requests. This provides a persistent backdoor into the system and enables continuous interaction with the server without re-exploiting the initial vulnerability.
+
+```
+<?php system($_GET['cmd']); ?>
+```
+```
+http://target/shell.php?cmd=id
+```
+
+<b>Access to the VirtualHost and Web Root</b>
+
+After achieving Remote Code Execution as the web server user (www-data), the attacker gains access to the application’s filesystem, including the VirtualHost directory configured in Apache. This typically includes the web root (e.g., /var/www/html), where core application files such as index.php are stored. If file permissions allow write access, the attacker can modify or replace existing files, leading to full application compromise or defacement.
+
+With sufficient privileges, the attacker can alter files within the VirtualHost environment, including PHP application logic, configuration files, or entry points like index.php. This enables persistent manipulation of the web application, redirection of users, or injection of malicious content.
+
+
 [![TryHackMe](https://img.shields.io/badge/-TryHackMe-3d9970?style=for-the-badge&logo=tryhackme&logoColor=white)](https://tryhackme.com/p/TheRootGod)
 [![LinkedIn](https://img.shields.io/badge/-LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/nistor-alexandru-cosmin-a900b5278/)
 
