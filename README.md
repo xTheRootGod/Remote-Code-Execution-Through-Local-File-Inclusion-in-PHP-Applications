@@ -1,4 +1,4 @@
-# Remote-Code-Execution-Through-Local-File-Inclusion-in-PHP-Applications
+# Remote Code Execution Through Local File Inclusion in PHP Applications
 
 <img width="1584" height="672" alt="image (1)" src="https://github.com/user-attachments/assets/f844cd52-f81c-4bb4-adf6-892ebbaf723d" /><br>
 
